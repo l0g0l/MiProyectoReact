@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import './App.css';
 // import MiComponente from './components/MiComponente';
 import tasks from './examples/tasks.json';
@@ -6,6 +7,9 @@ import tasks from './examples/tasks.json';
 // importamos components
 import Tasks from './components/tasks';
 import TaskForm from './components/taskForm';
+import Task from './components/task';
+import Post from './components/Post'
+
 
 console.log(tasks);
 
@@ -17,29 +21,58 @@ class App extends Component {
     "tasks": tasks
   }
 
-  addTask = (title,descripcion) => {
-    console.log(title,descripcion);
-   const newTask = {
-     "title":title,
-     descripcion: descripcion,
-     id: this.state.tasks.length
-   }
+  addTask = (title, descripcion) => {
+    console.log(title, descripcion);
+    const newTask = {
+      "title": title,
+      descripcion: descripcion,
+      id: this.state.tasks.length
+    }
 
-   console.log(newTask);
-   
-   this.setState({
-    "tasks":[...this.state.tasks, newTask]
-   })
-  
+    //  this.setState({
+    //   "tasks":[...this.state.tasks, newTask]
+    //  })
+
   }
+
+  deleteTask = (id) => {
+    const newTasks = this.state.tasks.filter(task => task.id !== id)
+    this.setState({ tasks: newTasks })
+  }
+
+  checkDone = (id) => {
+    const newTasks = this.state.tasks.map(task => {
+      if (task.id === id) {
+        task.done = !task.done
+      }
+      return task;
+    });
+    this.setState({ tasks: newTasks })
+  }
+
   render() {
 
     return <div>
+      <Router>
+        <Link to="/">Home</Link>
+        <br />
+        <Link to="/publicaciones">Publicaciones</Link>
 
-      <TaskForm addTask={this.addTask}/>
-      <Tasks tasks={this.state.tasks} />
+        <Route exact path="/" render={() => {
+          return <div>
 
+            <TaskForm addTask={this.addTask} />
+            <Tasks
+              tasks={this.state.tasks}
+              deleteTask={this.deleteTask}
+              checkDone={this.checkDone} />
+          </div>
+        }}>
+        </Route>
+        <Route path="/posts" component={Post} />
 
+      </Router>
+  
     </div>
   }
 

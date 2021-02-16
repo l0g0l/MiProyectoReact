@@ -15,7 +15,13 @@ class Tasks extends Component {
           <Tasks/> {/* a cada elemento le añado el componente tasks que es tarea
           </p>)}. Todo esto lo cambiamos por props ya que es una clase PADRE*/}
 
-        return this.props.tasks.map(task => <Task task= {task} key= {task.id}/>)
+        return this.props.tasks.map(task => 
+            <Task 
+            task= {task} 
+            key= {task.id} 
+            deleteTask={this.props.deleteTask}
+            checkDone={this.props.checkDone}
+            />)
             {/*<p key= {e.id}>
             {e.title}-
             {e. description}-

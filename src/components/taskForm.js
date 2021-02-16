@@ -9,11 +9,8 @@ export default class TaskForm extends Component {
 
     onSubmit = event => {
         console.log(this.state); // muestra los datos de title y descripcion que hayas metido en los inputs
-       
-        
         this.props.addTask(this.state.title, this.state.descripcion)
         event.preventDefault()
-        
     }
 
     onChange = event => {
@@ -27,7 +24,7 @@ export default class TaskForm extends Component {
     }
     render() {
         this.props.addTask('title one', 'descripcion one')
-        
+
         return (
 
             <form onSubmit={this.onSubmit}>
